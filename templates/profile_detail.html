@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+      integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <title>List</title>
+</head>
+<body>
+<div>
+    <a href="{% url 'posts:create' %}">Create</a>
+</div>
+<div>
+        {% if not request.user.is_authenticated %}
+        <li class='pull-right'><a href='{% url "register" %}'>Register</a></li>
+        <li class='pull-right'><a href='{% url "login" %}'>Login</a></li>
+        {% else %}
+        <li class='pull-right'><a href='{% url "logout" %}'>Logout</a></li>
+        {% endif %}
+</div>
+<div>
+    <div class="row">
+        <div class="col-md-1 col-md-offset-1"></div>
+        <div class="col-md-1">
+            {% if user_profile.user.username == current_user.username %}
+                <a href="{% url 'edit' %}">
+                    <p>
+                        {{ user_profile.user.username }}
+                    </p>
+                </a>
+                {% else %}
+                <p>
+                    {{ user_profile.user.username }}
+                </p>
+            {% endif %}
+        </div>
+        <div class="col-md-1 col-md-offset-1">
+            <img src="{{ user_profile.image.url }}" class="img-responsive" style="height: 50px; width: 50px;" />
+        </div>
+        <div class="col-md-3">
+            <p>{{ user_profile.signature }}</p>
+        </div>
+    </div>
+</div>
+<br>
+<div>
+    <div class="row">
+        {% for obj in posts %}
+      <div class="col-md-6 col-md-offset-3">
+        <div class="thumbnail">
+             <img src='{{ obj.photo.url }}' class='img-responsive' />
+          <div class="caption post-detail-item">
+              <h3>
+                  <a href='{{ obj.get_absolute_url }}'>{{ obj.description }}</a> <small>{{ obj.publish }}</small>
+              </h3>
+          </div>
+        </div>
+      </div>
+    <hr/>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+</body>
+</html>

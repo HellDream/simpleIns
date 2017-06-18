@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+      integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <title>List</title>
+</head>
+<body>
+<div>
+    <a href="{% url 'posts:create' %}">Create</a>
+</div>
+<div>
+        {% if not request.user.is_authenticated %}
+        <li class='pull-right'><a href='{% url "register" %}'>Register</a></li>
+        <li class='pull-right'><a href='{% url "login" %}'>Login</a></li>
+        {% else %}
+        <li class='pull-right'><a href='{% url "logout" %}'>Logout</a></li>
+        {% endif %}
+</div>
+    <div>
+        <form method='GET' action='' class='row'>
+            <div class='col-md-6 col-md-offset-3'>
+                <div class='input-group'>
+                    <input class='form-control' type='text' name='q' placeholder='Search' value='{{ request.GET.q }}'/>
+                    <span class='input-group-btn'>
+                        <!-- <input class='btn btn-default' type='submit' value='Search' /> -->
+                        <button class='btn btn-default' type='submit'>Search <i class="fa fa-search"></i></button>
+                    </span>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div>
+        {% for obj in object_list %}
+            <div class="row">
+              <div class="col-md-6 col-md-offset-3">
+                <div class="thumbnail">
+                    <a href='{{ obj.get_absolute_url }}'><img src='{{ obj.photo.url }}' class='img-responsive' /></a>
+                    <a href="{% url 'posts:post_list' %}?slug={{ obj.slug }}">{{ obj.likes.count }} likes</a>
+{#                    <input type="button" value="like" onclick="liked({{ obj.slug }})">#}
+                  <div class="caption post-detail-item">
+                      <a href="{% url 'posts:user_profile_page' obj.user.username %}">
+                          <p> {{ obj.user.username }}: </p>
+                          <img src="{{ obj.get_user_image }}" style="width: 50px; height: 50px"/>
+                      </a>
+                      <h3>
+                          <a href='{{ obj.get_absolute_url }}'>{{ obj.description }}</a> <small>{{ obj.publish }}</small>
+                      </h3>
+                  </div>
+                </div>
+              </div>
+            <hr/>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!--pagination-->
+    <div class="pagination">
+        <span class="step-links">
+            {% if object_list.has_previous %}
+                <a href="?{{ page_request_var }}={{ object_list.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+            </span>
+
+            {% if object_list.has_next %}
+                <a href="?{{ page_request_var }}={{ object_list.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">next</a>
+            {% endif %}
+        </span>
+    </div>
+{#<script>#}
+{#    function liked (slug) {#}
+{#        alert("hi");#}
+{#        $.ajax({#}
+{#            url:{% url 'posts:post_list' %},#}
+{#            type:'GET',#}
+{#            data:{'slug':slug},#}
+{#            success: function () {#}
+{#                alert("Success");#}
+{#            }#}
+{#        });#}
+{#    }#}
+{#</script>#}
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"
+integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+
+</body>
+</html>
