@@ -46,14 +46,14 @@ def login_view(request):
     if form.is_valid():
         username = form.cleaned_data.get('username')
         password = form.cleaned_data.get('password')
-        user = authenticate(username=username,password=password)
-        login(request,user=user)
+        user = authenticate(username=username, password=password)
+        login(request, user=user)
         return redirect('/')
     context = {
-        'form':form,
-        'title':title
+        'form': form,
+        'title': title
     }
-    return render(request,"form.html", context)
+    return render(request, "form.html", context)
 
 
 def logout_view(request):
@@ -68,6 +68,10 @@ def profile_edit_view(request):
     if not request.user.is_authenticated:
         return redirect("/")
     user_profile = UserProfile.objects.get(user=request.user)
+    initial_data = {
+        'signature': user_profile.signature,
+        'image': user_profile.image
+    }
     if form.is_valid():
         signature = form.cleaned_data.get("signature")
         if signature:
@@ -76,12 +80,11 @@ def profile_edit_view(request):
         if image:
             user_profile.image = image
         user_profile.save()
-        return redirect("/user/"+user_profile.user.username)
+        return redirect("/user/" + user_profile.user.username)
 
-    form =  UserEditForm(initial={'signature':user_profile.signature,
-                                  'image':user_profile.image})
+    form = UserEditForm(initial=initial_data)
     context = {
-        'form':form,
-        'title':title
+        'form': form,
+        'title': title
     }
     return render(request, 'form.html', context)

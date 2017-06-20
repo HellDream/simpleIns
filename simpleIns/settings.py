@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'posts',
     'accounts',
+    'comments',
 ]
 
 MIDDLEWARE = [
@@ -126,3 +127,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static_root")
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]

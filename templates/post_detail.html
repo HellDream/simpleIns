@@ -1,26 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-        <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
-      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
-<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-      integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <title>detail</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block post_detail_container %}
 <div>
-    <div>
-        {% if not request.user.is_authenticated %}
-        <li class='pull-right'><a href='{% url "register" %}'>Register</a></li>
-        <li class='pull-right'><a href='{% url "login" %}'>Login</a></li>
-        {% else %}
-        <li class='pull-right'><a href='{% url "logout" %}'>Logout</a></li>
-        {% endif %}
-</div>
 <div>
     <div class="row">
       <div class="col-md-6 col-md-offset-3">
@@ -30,19 +10,85 @@
             data-likes='{{ instance.likes.count }}'
             href='{{ instance.get_like_url }}'>{{ instance.likes.count }} likes</a>
           <div class="caption post-detail-item">
-              <h3>
-                  {{ instance.description }} <small>{{ instance.publish }}</small>
+              <h3 class="text-muted">
+                  {{ instance.description }} <small>{{ instance.publish|timesince }}</small>
               </h3>
           </div>
         </div>
       </div>
-    <hr/>
+    <br>
     </div>
 </div>
+<footer>
+    <div class="col-md-6 col-md-offset-3">
+
+        <form class="form-horizontal" action="{% url 'posts:detail' instance.slug %}" method="POST">{% csrf_token %}
+            <div class="form-group">
+                <input type="text" name="content"  class="form-control" placeholder="Say something?">
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Commit" class="btn btn-default">
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        {% for comment in instance.get_instance_comment %}
+            <div class="col-md-6 col-md-offset-3">
+            <blockquote>
+                <div class="row">
+                    <a href="{% url 'posts:user_profile_page' comment.user.username %}">
+                        <div class="col-md-1">
+                            <img src="{{ comment.user.user_profile.image.url }}" style="height: 50px; width: 50px" class="img-circle">
+                        </div>
+                        <div class="col-md-1">
+                            <p class="text-muted">
+                                {{ comment.user.username }}:
+                            </p>
+                        </div>
+                    </a>
+                    <div class="col-md-1 col-md-offset-1">
+                        <p class="text-muted">
+                            {{ comment.content }}
+                        </p>
+                    </div>
+                </div>
+                <div>
+                    {% for children_comment in comment.children %}
+                        <blockquote>
+                            <div class="row">
+                                <a href="{% url 'posts:user_profile_page' children_comment.user.username %}">
+                                    <div class="col-md-1">
+                                            <img src="{{ children_comment.user.user_profile.image.url }}" style="height: 30px; width: 30px" class="img-circle">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <p class="text-muted">
+                                            {{ children_comment.user.username }}:
+                                        </p>
+                                    </div>
+                                </a>
+                                <div class="col-md-1 col-md-offset-1">
+                                    <p class="text-muted">
+                                        {{ children_comment.content }}
+                                    </p>
+                                </div>
+                            </div>
+                        </blockquote>
+                    {% endfor %}
+                    <form class="form-horizontal" action="{% url 'posts:detail' instance.slug %}" method="POST">{% csrf_token %}
+                        <div class="form-group">
+                            <input type="text" name="content"  class="form-control" placeholder="Say something?">
+                            <input type="hidden" name="parent_id" value="{{ comment.id }}">
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Reply" class="btn btn-default">
+                        </div>
+                    </form>
+                </div>
+            </blockquote>
+            </div>
+        {% endfor %}
+
+    </div>
+</footer>
 </div>
-<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"
-        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
-</body>
-</html>
+{% endblock post_detail_container %}

@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+      integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static "css/base.css" %}">
+    <link href='http://fonts.googleapis.com/css?family=Oleo+Script' rel='stylesheet' type='text/css'>
+    <title>{{ title }}</title>
+</head>
+<body>
+{% block head %}
+    <div class="navbar panel">
+        <div class="container">
+            <div class="navbar-header">
+                <h3 class="text-muted"> SimpleIns</h3>
+            </div>
+            <div class="right">
+                 {% if not request.user.is_authenticated %}
+                     <a class="main-menu--item" href='{% url "register" %}'>Register</a>
+                     <a class="main-menu--item" href='{% url "login" %}'>Login</a>
+                 {% else %}
+                     <a class="main-menu--item" href="{% url 'posts:post_list' %}">Home</a>
+                     <a class="main-menu--item" href='{% url "logout" %}'>Logout</a>
+                    <a class="main-menu--item" href="{% url 'posts:create' %}">Create</a>
+                    <a class="main-menu--item" href="{% url 'posts:user_profile_page' request.user.username %}">
+                        <span class="glyphicon glyphicon-user"></span>
+                    </a>
+
+                 {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock head %}
+{% block account_container %}
+{% endblock account_container %}
+{% block post_list_container %}
+{% endblock post_list_container %}
+{% block post_detail_container %}
+{% endblock post_detail_container %}
+{% block profile_container %}
+{% endblock profile_container %}
+{% block post_form_container %}
+{% endblock post_form_container %}
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"
+integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+    var
+</script>
+<script>
+  var fileInput = document.querySelector('input[type=file]'),
+          previewImg = document.querySelector('img');
+  fileInput.addEventListener('change', function () {
+      var file = this.files[0];
+      var reader = new FileReader();
+      reader.addEventListener("load", function () {
+          previewImg.src = reader.result;
+      }, false);
+      reader.readAsDataURL(file);
+  }, false);
+</script>
+</body>
+</html>

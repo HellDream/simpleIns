@@ -25,7 +25,7 @@ urlpatterns = [
     url(r'^', include("posts.urls", namespace='posts')),
     url(r'^register/', register,name='register'),
     url(r'^login/', login_view, name='login'),
-    url(r'^logout/',logout_view, name='logout'),
+    url(r'^logout/', logout_view, name='logout'),
     url(r'^edit/', profile_edit_view, name='edit'),
 ]
 

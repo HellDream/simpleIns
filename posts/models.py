@@ -15,6 +15,7 @@ from django.urls import reverse
 from PIL import Image
 
 from accounts.models import UserProfile
+from comments.models import Comment
 
 
 def upload_location(instance, filename):
@@ -49,12 +50,21 @@ class Post(models.Model):
         content_type = ContentType.objects.get_for_model(instance.__class__)
         return content_type
 
+    @property
+    def get_instance_comment(self):
+        instance = self
+        queryset = Comment.objects.filter_by_instance(instance).order_by('-timestamp')
+        return queryset
+
     def get_like_url(self):
         return reverse("posts:like-toggle", kwargs={"slug": self.slug})
 
     def get_user_image(self):
         image = UserProfile.objects.get(user=self.user).image.url
         return image
+
+
+
 
 def random_string_generator(size):
     chars = string.ascii_lowercase + string.digits
