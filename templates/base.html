@@ -12,6 +12,8 @@
       integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static "css/base.css" %}">
     <link href='http://fonts.googleapis.com/css?family=Oleo+Script' rel='stylesheet' type='text/css'>
+    {% block link_file %}
+    {% endblock link_file %}
     <title>{{ title }}</title>
 </head>
 <body>

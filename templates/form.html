@@ -1,4 +1,8 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block link_file %}
+    <link rel="stylesheet" href="{% static "css/login.css" %}">
+{% endblock link_file %}
 {% block account_container %}
     <div class='lg-container'>
     <h1>{{ title }}</h1>
