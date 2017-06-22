@@ -65,26 +65,7 @@ def post_detail(request, slug=None):
     title = "Detai"
     instance = get_object_or_404(Post, slug=slug)
     share_string = quote_plus(instance.description)
-    # initial_data = {
-    #     "content_type": instance.get_content_type,
-    #     "object_id": instance.id,
-    #     "email": request.user.email
-    # }
-    # form = CommentForm(request.POST or None, initial=initial_data)
-    #
-    # if form.is_valid():
-    #     print "BOOM!!"
-    #     new_content_type = ContentType.objects.get(form.cleaned_data.get("content_type"))
-    #     new_object_id = form.cleaned_data.get("object_id")
-    #     email = form.cleaned_data.get("email")
-    #     content = form.cleaned_data.get("content")
-    #     comment = Comment.objects.create(user=request.user,
-    #                                      content_type=new_content_type,
-    #                                      object_id=new_object_id,
-    #                                      content=content,
-    #                                      email=email)
-    #     comment.save()
-    #     return redirect("/")
+
     if request.method=='POST':
         content = request.POST['content']
         content_type = instance.get_content_type
