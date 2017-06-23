@@ -1,58 +1,58 @@
 {% extends "base.html" %}
 {% block post_list_container %}
-    <div class="row">
-        <div class='col-md-6 col-sm-offset-3'>
-            <form method='GET' action=''>
-                <div class='col-md-6'>
-                    <div class='input-group'>
-                        <input class='form-control' type='text' name='q' placeholder='Search posts' value='{{ request.GET.q }}'/>
-                        <span class='input-group-btn'>
+        <div class="row">
+            <div class='col-md-6 col-sm-offset-3'>
+                <form method='GET' action=''>
+                    <div class='col-md-6'>
+                        <div class='input-group'>
+                            <input class='form-control' type='text' name='q' placeholder='Search posts' value='{{ request.GET.q }}'/>
+                            <span class='input-group-btn'>
                         <!-- <input class='btn btn-default' type='submit' value='Search' /> -->
                         <button class='btn btn-default' type='submit'>
                             <span class="glyphicon glyphicon-search"></span>
                             Search <i class="fa fa-search"></i>
                         </button>
                     </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <br>
+        <div>
+            {% for obj in object_list %}
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <div class="thumbnail">
+                            <a href='{{ obj.get_absolute_url }}'><img src='{{ obj.photo.url }}' class='img-responsive' /></a>
+                            <a class="user-like" href="{% url 'posts:post_list' %}?slug={{ obj.slug }}">
+                                <span class="badge">{{ obj.likes.count }}</span>
+                                likes
+                            </a><small>{{ obj.get_instance_comment.count }} comments</small>
+                            {#                <input type="button" value="like" onclick="liked({{ obj.slug }})">#}
+                            <div>
+                                <div class="obj-user">
+                                    <a class="main-menu--item" href="{% url 'posts:user_profile_page' obj.user.username %}">
+                                        <img src="{{ obj.get_user_image }}" style="width: 50px; height: 50px" class="img-circle"/>
+                                        <p class="user-username"> {{ obj.user.username }} </p>
+                                    </a>
+                                </div>
+                                <div class="description">
+                                    <h3>
+                                        <a class="description" href='{{ obj.get_absolute_url }}'>{{ obj.description }}</a>
+                                    </h3><small>{{ obj.publish }}</small>
+                                    <br>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
-            </form>
+            {% endfor %}
         </div>
-    </div>
-    <br>
-    <div>
-    {% for obj in object_list %}
-        <div class="row">
-          <div class="col-md-6 col-md-offset-3">
-            <div class="thumbnail">
-                <a href='{{ obj.get_absolute_url }}'><img src='{{ obj.photo.url }}' class='img-responsive' /></a>
-                <a class="user-like" href="{% url 'posts:post_list' %}?slug={{ obj.slug }}">
-                    <span class="badge">{{ obj.likes.count }}</span>
-                    likes
-                </a><small>{{ obj.get_instance_comment.count }} comments</small>
-{#                <input type="button" value="like" onclick="liked({{ obj.slug }})">#}
-                <div>
-                  <div class="obj-user">
-                      <a class="main-menu--item" href="{% url 'posts:user_profile_page' obj.user.username %}">
-                          <img src="{{ obj.get_user_image }}" style="width: 50px; height: 50px" class="img-circle"/>
-                          <p class="user-username"> {{ obj.user.username }} </p>
-                      </a>
-                  </div>
-                    <div class="description">
-                      <h3>
-                          <a class="description" href='{{ obj.get_absolute_url }}'>{{ obj.description }}</a>
-                      </h3><small>{{ obj.publish }}</small>
-                      <br>
-                  </div>
-                </div>
 
-            </div>
-          </div>
-        </div>
-    {% endfor %}
-    </div>
-
-<!--pagination-->
-<div class="pagination">
+        <!--pagination-->
+        <div class="pagination">
     <span class="step-links">
         {% if object_list.has_previous %}
             <a href="?{{ page_request_var }}={{ object_list.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">previous</a>
@@ -66,7 +66,7 @@
             <a href="?{{ page_request_var }}={{ object_list.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">next</a>
         {% endif %}
     </span>
-</div>
+        </div>
 
 
 
