@@ -151,3 +151,12 @@ img {
 .obj-user {
 
 }
+
+.top{
+    line-height: 58px;
+    display: inline-block;
+    padding: 0 20px;
+    color: #999999;
+    box-sizing: content-box;
+    font-size: 20px;
+}

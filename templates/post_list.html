@@ -1,4 +1,8 @@
 {% extends "base.html" %}
+{% load static %}
+{% block link_file %}
+    <link rel="stylesheet" href="{% static "css/rest.css" %}">
+{% endblock link_file %}
 {% block post_list_container %}
         <div class="row">
             <div class='col-md-6 col-sm-offset-3'>
@@ -52,21 +56,44 @@
         </div>
 
         <!--pagination-->
-        <div class="pagination">
-    <span class="step-links">
-        {% if object_list.has_previous %}
-            <a href="?{{ page_request_var }}={{ object_list.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">previous</a>
-        {% endif %}
-
-        <span class="current">
+    <nav aria-label="pagination">
+      <ul class="pager">
+              {% if object_list.has_previous %}
+            <li>
+                <a href="?{{ page_request_var }}={{ object_list.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+                    <span aria-hidden="true">&larr;previous</span>
+                </a>
+            </li>
+              {% endif %}
+            <li>
+                <span class="current">
             Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
-        </span>
-
-        {% if object_list.has_next %}
-            <a href="?{{ page_request_var }}={{ object_list.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">next</a>
-        {% endif %}
-    </span>
-        </div>
+                </span>
+            </li>
+            {% if object_list.has_next %}
+            <li>
+                <a href="?{{ page_request_var }}={{ object_list.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+                    <span aria-hidden="true">&rarr;next</span>
+                </a>
+            </li>
+            {% endif %}
+      </ul>
+    </nav>
+{#        <div class="pagination">#}
+{#    <span class="step-links">#}
+{#        {% if object_list.has_previous %}#}
+{#            <a href="?{{ page_request_var }}={{ object_list.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">previous</a>#}
+{#        {% endif %}#}
+{##}
+{#        <span class="current">#}
+{#            Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.#}
+{#        </span>#}
+{##}
+{#        {% if object_list.has_next %}#}
+{#            <a href="?{{ page_request_var }}={{ object_list.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">next</a>#}
+{#        {% endif %}#}
+{#    </span>#}
+{#        </div>#}
 
 
 

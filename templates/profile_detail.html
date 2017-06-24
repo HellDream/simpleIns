@@ -1,4 +1,8 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block link_file %}
+        <link rel="stylesheet" href="{% static "css/rest.css" %}">
+{% endblock link_file %}
 {% block profile_container %}
 <div>
     <div class="row">
@@ -22,14 +26,6 @@
 </div>
 <br>
 <div>
-    <div class="row">
-      <div class="col-md-6 col-md-offset-3">
-          <div class="jumbotron">
-              <div class="container">
-                <h1>PHOTO</h1>
-              </div>
-          </div>
-      </div>
         {% for obj in posts %}
       <div class="col-md-6 col-md-offset-3">
         <div class="thumbnail">
@@ -41,7 +37,7 @@
           </div>
         </div>
       </div>
-    <hr/>
+    <br>
         {% endfor %}
     </div>
 </div>
