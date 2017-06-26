@@ -64,7 +64,7 @@ def logout_view(request):
 
 def profile_edit_view(request):
     form = UserEditForm(request.POST or None, request.FILES or None)
-    title = "Edit Profile"
+    title = "Edit-Profile"
     if not request.user.is_authenticated:
         return redirect("/")
     user_profile = UserProfile.objects.get(user=request.user)
