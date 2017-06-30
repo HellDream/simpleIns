@@ -1,9 +1,9 @@
 body {
- background:url(../img/background_img.jpg) no-repeat center fixed;
- background-position: center 0;
- background-repeat: no-repeat;
- background-attachment: fixed;
- background-size: cover;
- -webkit-background-size: cover;
+    background:url(../img/background_img.jpg) no-repeat center fixed;
+    background-position: center 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
 }
 
